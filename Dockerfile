@@ -11,5 +11,5 @@ RUN apk --no-cache add ca-certificates
 WORKDIR /root/
 COPY --from=builder /server .
 COPY config.yml ./
-EXPOSE 8080
+EXPOSE 8282
 CMD ["./server"]

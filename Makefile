@@ -13,7 +13,7 @@ docker-build:
 	docker build -t mortgage-calculator .
 
 run:
-	docker run -p 8080:8080 --name mortgage-calc mortgage-calculator
+	./bin/server
 
 stop:
 	docker stop mortgage-calc && docker rm mortgage-calc
