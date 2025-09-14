@@ -50,7 +50,7 @@ func (c *MortgageController) handleCalculate(w http.ResponseWriter, r *http.Requ
 	// Business logic calculation
 	result, err := c.calc.Calculate(&req)
 	if err != nil {
-		if errors.Is(err, calculator.ErrInitialPaymentTooLow) {
+		if errors.Is(err, calculator.ErrInitialPaymentShouldBeMore) {
 			sendError(w, err.Error(), http.StatusBadRequest)
 			return
 		}

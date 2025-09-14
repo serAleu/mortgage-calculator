@@ -153,15 +153,57 @@ docker push seraleu/mortgage-calculator:latest
 5. golangci-lint run
 6. go run ./cmd/server
 
-Makefile:
-```
-make build        # Собрать бинарник
-make test         # Запустить тесты
-make lint         # Запустить линтер
-make docker-build # Собрать Docker образ
-make run          # Запустить Docker контейнер
-make stop         # Остановить Docker контейнер
-```
+## 🛠️ Makefile Commands Reference
+
+Development Commands
+| Command | Description |
+|---------|-------------|
+| `make all` | Build, test and lint the project |
+| `make build` | Build the binary |
+| `make run` | Run the application locally |
+| `make stop` | Stop the local application |
+| `make clean` | Clean build artifacts and test cache |
+
+Testing Commands
+| Command | Description |
+|---------|-------------|
+| `make test` | Run tests with coverage and race detection |
+| `make test-verbose` | Run tests with verbose output |
+| `make test-coverage` | Run tests and show coverage report |
+| `make test-package pkg=./path` | Run tests for specific package |
+
+Code Quality Commands
+| Command | Description |
+|---------|-------------|
+| `make lint` | Run golangci-lint |
+| `make lint-fix` | Run golangci-lint with auto-fix |
+| `make fmt` | Format Go code |
+
+Docker Commands
+| Command | Description |
+|---------|-------------|
+| `make docker-build` | Build Docker image |
+| `make docker-run` | Run Docker container |
+| `make docker-stop` | Stop Docker container |
+| `make docker-rm` | Remove Docker container |
+| `make docker-clean` | Stop and remove Docker container |
+| `make docker-logs` | Show Docker container logs |
+| `make docker-push` | Build and push to Docker Hub |
+| `make docker-pull` | Pull from Docker Hub |
+| `make docker-shell` | Open shell in container |
+
+Dependency Management
+| Command | Description |
+|---------|-------------|
+| `make deps` | Download dependencies |
+| `make deps-update` | Update dependencies |
+| `make deps-vendor` | Vendor dependencies |
+
+Utility Commands
+| Command | Description |
+|---------|-------------|
+| `make help` | Show help message |
+| `make version` | Show Go version |
  
 ## 📦 Структура проекта
 ```

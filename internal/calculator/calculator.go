@@ -20,7 +20,7 @@ func (c *calculatorImpl) Calculate(req *model.MortgageRequest) (*model.MortgageC
 	// Validate initial payment (20%)
 	minInitialPayment := req.ObjectCost * 0.2
 	if req.InitialPayment < minInitialPayment {
-		return nil, ErrInitialPaymentTooLow
+		return nil, ErrInitialPaymentShouldBeMore
 	}
 
 	// Determine interest rate based on program
@@ -73,7 +73,7 @@ func (c *calculatorImpl) getAnnualRate(program model.MortgageProgram) float64 {
 }
 
 var (
-	ErrInitialPaymentTooLow = &BusinessError{"the initial payment should be more"}
+	ErrInitialPaymentShouldBeMore = &BusinessError{"the initial payment should be more"}
 )
 
 type BusinessError struct {

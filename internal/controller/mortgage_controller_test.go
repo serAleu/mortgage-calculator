@@ -146,11 +146,11 @@ func TestHandleCalculate(t *testing.T) {
 			// Validator вернет ошибку о максимальном значении
 		},
 		{
-			name:           "initial payment too low error from calculator",
+			name:           "the initial payment should be more from calculator",
 			requestBody:    `{"object_cost": 10000000, "initial_payment": 500000, "months": 240, "program": {"base": true}}`, // Маленький первоначальный взнос
-			mockError:      calculator.ErrInitialPaymentTooLow,                                                               // Калькулятор возвращает специфическую ошибку
+			mockError:      calculator.ErrInitialPaymentShouldBeMore,                                                         // Калькулятор возвращает специфическую ошибку
 			expectedStatus: http.StatusBadRequest,
-			expectedBody:   `{"error":"initial payment too low"}`,
+			expectedBody:   `{"error":"the initial payment should be more"}`,
 		},
 		{
 			name:           "internal calculator error",
@@ -352,18 +352,18 @@ func TestErrorHandlingFunctions(t *testing.T) {
 		rr := httptest.NewRecorder()
 		sendError(rr, "custom error message", http.StatusBadRequest)
 
-		// Проверяем статус код
 		if rr.Code != http.StatusBadRequest {
 			t.Errorf("Expected status %d, got %d", http.StatusBadRequest, rr.Code)
 		}
 
-		// Проверяем тело ответа
 		expected := `{"error":"custom error message"}`
-		if rr.Body.String() != expected {
-			t.Errorf("Expected body %s, got %s", expected, rr.Body.String())
+		expectedNormalized, _ := normalizeJSON(expected)
+		actualNormalized, _ := normalizeJSON(rr.Body.String())
+
+		if actualNormalized != expectedNormalized {
+			t.Errorf("Expected body %s, got %s", expectedNormalized, actualNormalized)
 		}
 
-		// Проверяем Content-Type заголовок
 		if ct := rr.Header().Get("Content-Type"); ct != "application/json" {
 			t.Errorf("Expected Content-Type application/json, got %s", ct)
 		}

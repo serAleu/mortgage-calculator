@@ -24,7 +24,7 @@ func TestCalculator_Calculate(t *testing.T) {
 			wantError:   nil,
 		},
 		{
-			name: "initial payment too low",
+			name: "the initial payment should be more",
 			request: &model.MortgageRequest{
 				ObjectCost:     5_000_000,
 				InitialPayment: 500_000, // 10%, should be 20% (1M)
@@ -32,7 +32,7 @@ func TestCalculator_Calculate(t *testing.T) {
 				Program:        model.MortgageProgram{Salary: true},
 			},
 			wantPayment: 0,
-			wantError:   ErrInitialPaymentTooLow,
+			wantError:   ErrInitialPaymentShouldBeMore,
 		},
 	}
 
