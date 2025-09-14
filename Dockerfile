@@ -1,15 +1,15 @@
 # Build stage
-FROM golang:1.21-alpine AS builder
+FROM golang:1.25-alpine AS builder
 WORKDIR /app
-COPY . .
+# Копируем сначала только файлы модулей для лучшего кэширования слоев Docker
+COPY go.mod go.sum ./
 RUN go mod download
-RUN CGO_ENABLED=0 GOOS=linux go build -o /server ./cmd/server
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o /server ./cmd/server
 
-# Final stage
-FROM alpine:latest
-RUN apk --no-cache add ca-certificates
-WORKDIR /root/
-COPY --from=builder /server .
+# Final stage - используем "scratch" для минимального размера
+FROM scratch
+COPY --from=builder /server /server
 COPY config.yml ./
 EXPOSE 8282
-CMD ["./server"]
+CMD ["/server"]
